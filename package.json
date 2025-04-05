@@ -1,6 +1,6 @@
 {
   "name": "express-typescript-starter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A TypeScript-based Express starter project with built-in user authentication, designed for fast and secure REST API development.",
   "main": "src/index.ts",
   "scripts": {

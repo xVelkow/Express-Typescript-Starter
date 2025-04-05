@@ -33,8 +33,8 @@ src/
 ## 🧑‍💻 Getting Started
 
 ### 1. **Clone the Repository**
-**`git clone https://github.com/velkow/express-typescript-starter.git`**
-**`cd express-typescript-starter`**
+**`git clone https://github.com/xVelkow/Express-Typescript-Starter.git`**
+**`cd Express-Typescript-Starter`**
 
 ### 2. **Install Dependencies**
 **`npm install`**
