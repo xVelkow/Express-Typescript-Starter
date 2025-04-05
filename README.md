@@ -34,6 +34,7 @@ src/
 
 ### 1. **Clone the Repository**
 **`git clone https://github.com/xVelkow/Express-Typescript-Starter.git`**
+
 **`cd Express-Typescript-Starter`**
 
 ### 2. **Install Dependencies**
@@ -44,6 +45,7 @@ Rename **`example.env`** to **`.env`**
 
 ### 4. **Generate and Migrate using DrizzleORM**
 **`npx drizzle-kit generate`**
+
 **`npx drizzle-kit migrate`**
 
 ### 5. **Run the Project**
