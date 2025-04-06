@@ -72,26 +72,36 @@ Retrieves the current logged in user (only if authenticated).
 ## Tests
 The following tests are designed to ensure the correctness of the authentication feature.
 
-### 1. **POST /api/auth/login - Missing Credentials**
-Tests if the login request returns a 401 error when credentials are missing.
+### **Authentication API**
 
-### 2. **POST /api/auth/login - Invalid Credentials**
-Tests if the login request returns a 401 error when invalid credentials are provided.
+#### 1. Login Endpoint
 
-### 3. **POST /api/auth/login - Invalid Password**
-Tests if the login request returns a 401 error when the password is incorrect.
+##### Invalid Login Scenarios
+- ✓ **Empty credentials:** Returns 401 Unauthorized with "Missing credentials" message
+- ✓ **Null credentials:** Returns 401 Unauthorized with "Missing credentials" message
+- ✓ **Undefined credentials:** Returns 401 Unauthorized with "Missing credentials" message
+- ✓ **Invalid username and password:** Returns 401 Unauthorized with "Invalid credentials" message
+- ✓ **Valid username with wrong password:** Returns 401 Unauthorized with "Invalid credentials" message
+- ✓ **Valid email with wrong password:** Returns 401 Unauthorized with "Invalid credentials" message
 
-### 4. **POST /api/auth/login - Valid Credentials with Username**
-Tests if the login request returns a 200 status for valid credentials using a username.
+##### Valid Login Scenarios
+- ✓ **Username login:** Returns 200 OK with user data (excluding password) when using valid username
+- ✓ **Email login:** Returns 200 OK with user data (excluding password) when using valid email
+- ✓ **Session cookie:** Sets proper HttpOnly session cookie on successful authentication
 
-### 5. **POST /api/auth/login - Valid Credentials with Email**
-Tests if the login request returns a 200 status for valid credentials using an email.
+#### 2. Logout Endpoint
+- ✓ **Successful logout:** Returns 200 OK with "User logged out successfully" message
+- ✓ **Cookie clearing:** Properly expires the session cookie (sets expiry to Jan 1, 1970)
 
-### 6. **POST /api/auth/logout - Successful Logout**
-Tests if the logout functionality works correctly.
+#### 3. Session Management
+- ✓ **Unauthenticated access:** Returns 401 Unauthorized when accessing protected routes without authentication
+- ✓ **Authenticated access:** Returns 200 OK with user data when accessing protected routes with valid session
+- ✓ **Invalid session:** Returns 401 Unauthorized when session is invalid or expired
 
-### 7. **POST /api/auth/login - Null Credentials**
-Tests for null values in credentials and ensures that they return a proper error.
+#### 4. Password Security
+- ✓ **Password protection:** Ensures password/hashedPassword fields are never included in API responses
 
-### 8. **POST /api/auth/login - Should Set Session Cookie**
-Tests if the session cookie is set on successful login.
+### Test Environment
+- Uses isolated test user created specifically for testing
+- Cleans up sessions after each test
+- Properly disconnects from Redis and closes server after all tests complete

@@ -50,22 +50,34 @@ export const register = async (req: Request, res: Response) => {
   };
 };
 
-export const login = (req: Request, res: Response, next: NextFunction) => {
-  passport.authenticate("local", (err: any, user: Express.User, info: any) => {
+export const login = (req: Request, res: Response, _next: NextFunction) => {
+  passport.authenticate("local", (err: any, user: Express.User | false, info: { message: any; }) => {
     if (err) {
-      return next(err);
+      console.error("Authentication error:", err);
+      return res.status(500).json({ message: "Internal server error" });
     }
+
     if (!user) {
-      return res.status(401).json({ message: info.message || "Unauthorized" });
+      return res.status(401).json({ message: info?.message || "Invalid credentials" });
     }
 
     req.logIn(user, (loginErr) => {
       if (loginErr) {
-        return next(loginErr);
+        console.error("Login error:", loginErr);
+        return res.status(500).json({ message: "Login failed" });
       }
-      return res.json({ message: "User logged in successfully", user });
+
+      // Successful login – send response here and do NOT call next()
+      return res.status(200).json({
+        message: "User logged in successfully",
+        user: {
+          id: (user as any).id,
+          username: (user as any).username,
+          email: (user as any).email,
+        },
+      });
     });
-  })(req, res, next);
+  })(req, res);
 };
 
 export const logout = async (req: Request, res: Response) => {

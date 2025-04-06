@@ -3,6 +3,20 @@ import { eq, or } from "drizzle-orm";
 import { users } from "../schemas/user.schema";
 import { User, NewUser } from "../schemas/user.schema";
 
+/* TEST ONLY */
+export const createTestUser = async (user: NewUser): Promise<void> => {
+  await postgres
+    .insert(users)
+    .values(user);
+};
+export const deleteTestUser = async (username: string): Promise<void> => {
+  await postgres
+    .delete(users)
+    .where(eq(users.username, username))
+    .execute();
+};
+/* TEST ONLY */
+
 export const getUserByEmailOrUsername = async (emailOrUsername: string): Promise<User | undefined> => {
   const result = await postgres
     .select()
