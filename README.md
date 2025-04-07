@@ -8,6 +8,7 @@ A modern and scalable Express.js backend project built with **TypeScript**, feat
 
 - ✅ **Authentication** (Session-Based)
 - ⚙️ Built with **TypeScript** for type safety
+- ⏱️ **Rate Limiter** to avoid spam requests
 - 📁 Scalable and modular **project structure**
 - 📦 Lightweight and dependency-minimal
 - 🛡️ Basic security best practices
@@ -19,15 +20,17 @@ A modern and scalable Express.js backend project built with **TypeScript**, feat
 
 ```bash
 src/
-├── core/                 # Core logic and utilities 
-│   └── database/         # Database configuration
-│       └── postgres.ts
-│       └── redis.ts
+├── core/                   # Core logic and utilities 
+│   └── database/           # Database configuration
+│   │   └── postgres.ts
+│   │   └── redis.ts
+│   └── security/           # Security modules
+│       └── rateLimiter.ts  # Rate Limiter to avoid spam
 ├── features/
-│   └── auth/             # Authentication module
-│       └── README.md     # Docs for auth feature
-├── tests/                # Test files based on feature module
-└── index.ts              # Entry point of the app
+│   └── auth/               # Authentication module
+│       └── README.md       # Docs for auth feature
+├── tests/                  # Test files based on feature module
+└── index.ts                # Entry point of the app
 ```
 
 ## 🧑‍💻 Getting Started
@@ -60,6 +63,12 @@ The authentication module is preconfigured with the basics:
 - Custom middleware to protect routes
 
 📄 Learn more in **`src/features/auth/README.md`**
+
+## ⏱️ Rate Limiter
+
+The rate limiter module is preconfigured for the authenticated users to avoid spam requests.
+
+📄 Learn more & modify based on your wishes in **`src/core/security/rateLimiter.ts`**
 
 ## 🤝 Contributing
 

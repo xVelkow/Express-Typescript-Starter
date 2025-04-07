@@ -4,6 +4,8 @@ import Redis from "ioredis";
 export const REDIS_KEYS = {
   PROJECT: "express-typescript-starter:",
   SESSION: "session:", 
+
+  AUTHENTICATED_RATE_LIMITER: "authenticated-rate-limiter:",
 };
 
 const redis = new Redis({

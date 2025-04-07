@@ -48,6 +48,32 @@ app.use(passport.session());
 // Bind routes to the application
 app.use("/api/auth", authRouter);
 
+// Creating test account
+import { createTestUser } from "@features/auth/models/user.model";
+export  const testCredentials = {
+  id: 1, // Assuming this is the ID of the test user
+  username: "testuser",
+  email: "testuser@test.com",
+  password: "testpassword",
+}
+app.post("/api/test", async (req: Request, res: Response) => {
+  try{
+    await createTestUser({
+      username: testCredentials.username,
+      email: testCredentials.email,
+      password: testCredentials.password,
+    });
+    res.status(201).json({
+      message: "Test user created successfully",
+    });
+    return;
+  } catch (error) {
+    console.error("Error creating test user:", error);
+    res.status(500).json({ message: "Internal server error" });
+    return;
+  }
+});
+
 // Start the server
 const PORT = process.env.PORT || 4000;
 const server = app.listen(PORT, () => {

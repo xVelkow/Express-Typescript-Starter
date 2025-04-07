@@ -2,30 +2,11 @@ import { app, server } from "../index";
 import redis from "@core/database/redis";
 import request from "supertest";
 import { afterAll, beforeAll, beforeEach, afterEach, describe, test, expect } from "@jest/globals";
-import { hashPassword } from "@features/auth/utils/password.utils";
-import { createTestUser, deleteTestUser } from "@features/auth/models/user.model";
-import { desc } from "drizzle-orm";
 
-// Test credentials
-const testCredentials = {
-  username: "testuser",
-  email: "testuser@test.com",
-  password: "testpassword",
-};
-
+import { testCredentials } from "../index";
 let authCookie: string | string[] | null;
 
 describe("Authentication API", () => {
-  // Global setup: Create test user before all tests
-  beforeAll(async () => {
-    await createTestUser({
-      username: testCredentials.username,
-      email: testCredentials.email,
-      password: await hashPassword(testCredentials.password),
-    });
-  });
-
-  // Global teardown: Cleanup test user and close connections
   afterAll(async () => {
     // Ensure any remaining session is logged out
     if (authCookie) {
@@ -34,8 +15,6 @@ describe("Authentication API", () => {
         .set("Cookie", Array.isArray(authCookie) ? authCookie : authCookie ? [authCookie] : []);
       authCookie = null;
     }
-    
-    await deleteTestUser(testCredentials.username);
     await redis.quit();
     server.close();
   });
